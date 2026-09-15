@@ -3,13 +3,12 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { ThemeProvider } from "../src/components/common/ThemeProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "TaskFlow",
-  description: "Manage your professional daily tasks efficiently.",
+  title: "video-guide",
+  description: "Manage your video tasks efficiently.",
   icons: {
     icon: "/icon.svg",
   },
@@ -23,7 +22,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
-        <ThemeProvider>{children}</ThemeProvider>
+        {children}
       </body>
     </html>
   );

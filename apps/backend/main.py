@@ -1,16 +1,7 @@
-
-
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware 
 
-from database import engine
-import models
-import tasks 
-
-# Initialize database
-models.Base.metadata.create_all(bind=engine)
-
-app = FastAPI(title="TaskFlow API")
+app = FastAPI(title="Video AI Analysis API")
 
 app.add_middleware(
     CORSMiddleware,
@@ -18,13 +9,13 @@ app.add_middleware(
         "http://localhost:3000", 
         "http://127.0.0.1:3000", 
         "http://192.168.1.3:3000",
-        "https://python-taskflow.vercel.app"
-        
-
+        "https://python-taskflow.vercel.app" #change this after deployment
     ], 
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"], 
 )
 
-app.include_router(tasks.router)
+@app.get("/")
+def health_check():
+    return {"status": "ok", "message": "Video AI API is running"}

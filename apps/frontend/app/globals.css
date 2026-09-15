@@ -13,11 +13,11 @@
 
 @layer base {
   :root {
-    --bg-color: #f3f4f6;
-    --surface-color: #ffffff;
-    --text-primary: #111827;
+    --bg-color: #050505;
+    --surface-color: #f0f0f0;
+    --text-primary: #f0f0f0;
     --text-secondary: #4b5563;
-    --accent-color: #10b981;
+    --accent-color: #B71C1C;
     --border-color: #e5e7eb;
   }
 
@@ -56,32 +56,24 @@
   @layer components {
     
     .btn-gradient {
-      background: linear-gradient(to bottom, #30e98f, #08815e);
+      background: linear-gradient(to bottom, #E2023a, #B71C1C);
       color: #ffffff;
       transition: all 0.2s ease;
     }
 
     .btn-gradient:hover {
-      background: linear-gradient(to top, #2ee88e, #087355);
-    }
-
-    .dark .btn-gradient {
-      background: linear-gradient(to bottom, #e0bb25, #b16b08);
-      color: #0a0a0a;
-    }
-    .dark .btn-gradient:hover {
-      background: linear-gradient(to bottom, #eab308, #935610);
+      background: linear-gradient(to top,  #ef4d4a, #B71C1C);
     }
 
     .text-gradient {
-      background: linear-gradient(to right, #30e98f, #08815e);
+      background: linear-gradient(to right, #E2023a, #B71C1C);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
     }
 
-    .dark .text-gradient {
-      background: linear-gradient(to right, #e0bb25, #b16b08);
+    .text-gradient {
+      background: linear-gradient(to right, #E2023a, #B71C1C);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
@@ -113,17 +105,17 @@
     }
 
     .loader::after {
-      background: rgba(0, 0, 0, 0.15);
+      background: rgba(163, 36, 36, 0.15);
       filter: blur(8px);
       transform: scaleY(0.3) translate(0px, 0px);
       left: 0;
       animation: l11-3 2s cubic-bezier(0, 400, 1, 400) infinite;
     }
 
-    .dark .loader::after {
-     background: rgba(53, 255, 157, 0.587); 
+     .loader::after {
+     background: rgba(255, 67, 53, 0.587); 
      filter: blur(8px);
-    box-shadow: 0 0 15px 2px rgba(53, 255, 157, 0.514);
+    box-shadow: 0 0 15px 2px rgba(255, 77, 53, 0.514);
     }
 
     @keyframes l11-1 {
