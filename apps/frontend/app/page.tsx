@@ -15,7 +15,7 @@ export default function Home() {
         </p>
 
         <Link
-          href="/tasks"
+          href="/guide"
           className="btn-gradient font-bold py-2.5 px-6 min-[475px]:py-3 min-[475px]:px-8 rounded-[16px] inline-block text-base min-[475px]:text-lg shadow-md transition-all duration-300"
         >
           upload your video
