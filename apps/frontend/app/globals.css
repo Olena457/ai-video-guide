@@ -1,4 +1,5 @@
 
+ 
  @import "tailwindcss";
 
 @theme {
@@ -12,17 +13,19 @@
 
 @layer base {
   :root {
-    --bg-color: #050505;
-    --surface-color: #121212;
-    --text-primary: #f0f0f0;
-    --text-secondary: #9ca3af;
-    --accent-color: #E2023a;
-    --border-color: #27272a;
+    --bg-color: #09090b; 
+    --surface-color: #18181b; 
+    --text-primary: #ededed; 
+    --text-secondary: #a1a1aa; 
+    --accent-color: #D9042B; 
+    --border-color: #27272a; 
   }
 
   body {
     background-color: var(--bg-color);
     color: var(--text-primary);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   .custom-scrollbar::-webkit-scrollbar {
@@ -43,24 +46,25 @@
 
 @layer components {
   .btn-gradient {
-    background: linear-gradient(to bottom, #E2023a, #B71C1C);
+    background: linear-gradient(to bottom, #B80223, #F42B4D);
     color: #ffffff;
-    transition: all 0.2s ease;
+    border: 1px solid #eb133d; 
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .btn-gradient:hover {
-    background: linear-gradient(to top, #ef4d4a, #B71C1C);
-    box-shadow: 0 4px 15px rgba(226, 2, 58, 0.3);
+    background: linear-gradient(to top, #B80223, #F42B4D);
+    box-shadow: 0 0 24px rgba(217, 4, 43, 0.5), 0 4px 12px rgba(0, 0, 0, 0.5);
   }
 
   .text-gradient {
-    background: linear-gradient(to right, #E2023a, #B71C1C);
+    background: linear-gradient(to right, #B80223, #F42B4D );
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
 
   .text-accent {
-    color: #E2023a;
+    color: #D9042B;
   }
 }
