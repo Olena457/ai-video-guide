@@ -10,12 +10,8 @@ import imageio_ffmpeg
 from PIL import Image
 from google.genai import types
 
-try:
-    from openai import OpenAI
-except ImportError:
-    OpenAI = None
-
-from config import gemini_client, groq_client
+# Імпортуємо всі клієнти з config.py
+from config import gemini_client, groq_client, openrouter_client
 from prompts import GUIDE_GENERATION_PROMPT
 
 
@@ -120,17 +116,8 @@ def process_video_and_extract_frames(video_bytes: bytes, fps_interval: int = 2):
 
 def _analyze_with_openrouter_fallback(frames_base64: dict, transcript: str = ""):
     """Fallback call using OpenRouter for Mistral Pixtral 12B"""
-    openrouter_key = os.getenv("OPENROUTER_API_KEY")
-    if not openrouter_key:
-        raise ValueError("OPENROUTER_API_KEY is not configured in environment variables.")
-
-    if not OpenAI:
-        raise ValueError("openai package is not installed. Please run 'pip install openai'.")
-
-    client = OpenAI(
-        base_url="https://openrouter.ai/api/v1",
-        api_key=openrouter_key,
-    )
+    if not openrouter_client:
+        raise ValueError("OPENROUTER_API_KEY is missing or invalid in configuration.")
 
     transcript_context = f"\nAUDIO TRANSCRIPT OF THE SPEAKER:\n\"{transcript}\"\n" if transcript else "\nNO AUDIO DETECTED.\n"
     prompt_text = GUIDE_GENERATION_PROMPT + transcript_context
@@ -144,7 +131,7 @@ def _analyze_with_openrouter_fallback(frames_base64: dict, transcript: str = "")
             "image_url": {"url": b64_url}
         })
 
-    response = client.chat.completions.create(
+    response = openrouter_client.chat.completions.create(
         model="mistralai/pixtral-12b:free",
         messages=[{"role": "user", "content": content}],
         response_format={"type": "json_object"}
