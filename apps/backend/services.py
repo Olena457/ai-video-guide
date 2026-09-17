@@ -70,7 +70,7 @@ def process_video_and_extract_frames(video_bytes: bytes, fps_interval: int = 2):
         total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
         duration = total_frames / fps
 
-        if duration > 125:
+        if duration > 120:
             cap.release()
             raise ValueError("Video exceeds the allowed duration of 2 minutes.")
 
@@ -123,7 +123,7 @@ def analyze_frames_with_gemini(payload_for_gemini: list, frames_base64: dict, tr
     start_time = time.time()
     
     response = gemini_client.models.generate_content(
-        model="gemini-2.5-flash",
+        model="gemini-3.6-flash",
         contents=full_request,
         config=types.GenerateContentConfig(
             response_mime_type="application/json"
