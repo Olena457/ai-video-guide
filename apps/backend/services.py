@@ -1,4 +1,3 @@
-
 import base64
 from io import BytesIO
 import json
@@ -9,13 +8,13 @@ import time
 import cv2
 import imageio_ffmpeg
 from PIL import Image
+from google.genai import types
 
-from .config import gemini_model, groq_client
-from .prompts import GUIDE_GENERATION_PROMPT
+from config import gemini_client, groq_client
+from prompts import GUIDE_GENERATION_PROMPT
 
 
 def extract_audio_and_transcribe(video_bytes: bytes) -> str:
-    """Витягує аудіо з MP4 та транскрибує його через Groq Whisper."""
     if not groq_client:
         return ""
 
@@ -73,7 +72,7 @@ def process_video_and_extract_frames(video_bytes: bytes, fps_interval: int = 2):
 
         if duration > 125:
             cap.release()
-            raise ValueError("Відео перевищує допустиму тривалість у 2 хвилини.")
+            raise ValueError("Video exceeds the allowed duration of 2 minutes.")
 
         frame_stride = int(fps * fps_interval)
         payload_for_gemini = []
@@ -115,21 +114,28 @@ def process_video_and_extract_frames(video_bytes: bytes, fps_interval: int = 2):
 
 
 def analyze_frames_with_gemini(payload_for_gemini: list, frames_base64: dict, transcript: str = ""):
+    if not gemini_client:
+        raise ValueError("GEMINI_API_KEY is not configured.")
+
     transcript_context = f"\nAUDIO TRANSCRIPT OF THE SPEAKER:\n\"{transcript}\"\n" if transcript else "\nNO AUDIO DETECTED.\n"
-    
     full_request = [GUIDE_GENERATION_PROMPT + transcript_context] + payload_for_gemini
 
     start_time = time.time()
-    response = gemini_model.generate_content(
-        full_request,
-        generation_config={"response_mime_type": "application/json"},
+    
+    response = gemini_client.models.generate_content(
+        model="gemini-2.5-flash",
+        contents=full_request,
+        config=types.GenerateContentConfig(
+            response_mime_type="application/json"
+        )
     )
+    
     execution_time = time.time() - start_time
 
     try:
         result_data = json.loads(response.text)
     except json.JSONDecodeError:
-        raise ValueError("AI повернув некоректний JSON формат.")
+        raise ValueError("AI returned an invalid JSON format.")
 
     for step in result_data.get("steps", []):
         f_idx = step.get("frame_index", 0)

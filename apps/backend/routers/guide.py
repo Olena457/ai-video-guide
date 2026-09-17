@@ -1,5 +1,7 @@
-# 
+
 from fastapi import APIRouter, UploadFile, File, HTTPException, status
+from google.genai.errors import APIError
+
 from schemas import GuideResponse
 from services import (
     process_video_and_extract_frames,
@@ -12,6 +14,7 @@ router = APIRouter(
     tags=["Guide Generation"]
 )
 
+
 @router.post("/generate-guide", response_model=GuideResponse)
 async def generate_guide(video_file: UploadFile = File(...)):
     if not video_file.filename.lower().endswith(('.mp4', '.mov', '.webm')):
@@ -20,8 +23,19 @@ async def generate_guide(video_file: UploadFile = File(...)):
             detail="File format must be MP4, MOV or WEBM."
         )
 
+    if video_file.size == 0:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Uploaded file is empty."
+        )
+
     try:
         video_bytes = await video_file.read()
+        if not video_bytes:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Failed to read video file content or file is empty."
+            )
 
         transcript = extract_audio_and_transcribe(video_bytes)
 
@@ -39,6 +53,11 @@ async def generate_guide(video_file: UploadFile = File(...)):
 
     except ValueError as e:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
+    except APIError as e:
+        raise HTTPException(
+            status_code=status.HTTP_502_BAD_GATEWAY,
+            detail=f"Gemini API Error: {str(e)}"
+        )
     except Exception as e:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,

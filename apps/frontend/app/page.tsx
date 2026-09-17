@@ -48,6 +48,10 @@ export default function Home() {
           <span className="flex items-center gap-1.5">
             <CheckCircle2 className="w-3.5 h-3.5 text-zinc-500" /> Export Ready
           </span>
+          <span className="flex items-center gap-1.5">
+            <CheckCircle2 className="w-3.5 h-3.5 text-zinc-500" /> MP4, MOV,
+            WEBM
+          </span>
         </div>
       </div>
     </main>
