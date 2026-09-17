@@ -38,7 +38,6 @@ export const StepTimelineItem = ({ step }: { step: StepItem }) => {
             width={800}
             height={450}
             className="w-full h-auto rounded-xl border border-[var(--border-color)] object-cover"
-            unoptimized
           />
         ) : (
           <div className="w-full h-32 bg-zinc-900/50 rounded-xl flex items-center justify-center text-[var(--text-secondary)] border border-dashed border-[var(--border-color)]">
