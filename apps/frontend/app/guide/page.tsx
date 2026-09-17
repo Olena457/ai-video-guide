@@ -19,8 +19,8 @@ export default function GuideGeneratorPage() {
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <header className="mb-8 pb-6 border-b border-[var(--border-color)]">
-          <h1 className="text-3xl font-bold flex items-center gap-3">
-            <FileVideo className="text-accent w-8 h-8 shrink-0" />
+          <h1 className="text-2xl sm:text-3xl font-bold flex items-center gap-2 sm:gap-3">
+            <FileVideo className="text-accent w-6 h-6 sm:w-8 sm:h-8 shrink-0" />
             <Link
               href="/"
               className="hover:opacity-80 transition-opacity text-gradient"

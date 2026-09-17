@@ -17,10 +17,9 @@ export default function Home() {
           <span>Next-Gen Video Processing</span>
         </div>
 
-        <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight mb-6 text-gradient pb-1">
-          Video-to-Guide AI
-        </h1>
-
+       <h1 className="text-3xl sm:text-5xl md:text-6xl font-extrabold tracking-tight mb-5 sm:mb-6 text-gradient pb-1">
+        Video-to-Guide AI
+      </h1>
         <p className="text-base sm:text-lg text-[var(--text-secondary)] mb-8 max-w-lg leading-relaxed">
           The ultimate tool to convert your screen recordings into clean,
           step-by-step professional guides in seconds.

@@ -2,6 +2,20 @@
 
 AI Video Guide is an intelligent web application designed to automatically generate step-by-step instructional guides from video demonstrations. It analyzes uploaded videos, extracts key frames and audio transcripts, and leverages advanced AI (Google Gemini / Mistral Pixtral) to create clear, concise, and visual "How-To" instructions.
 
+
+## *screenshots*
+
+
+<div style="display: flex; flex-wrap: wrap; gap: 15px;">
+
+  <img src="./apps/frontend/public/photo-3.jpg" style="width: 30%; height: 150px; object-fit: cover;" alt="photo 3"/>
+  <img src="./apps/frontend/public/photo-2.jpg" style="width: 30%; height: 150px; object-fit: cover;" alt="photo 2"/>
+  <img src="./apps/frontend/public/photo-1.jpg" style="width: 30%; height: 150px; object-fit: cover;" alt="photo 1"/>
+  <img src="./apps/frontend/public/photo-4.jpg" style="width: 30%; height: 150px; object-fit: cover;" alt="photo 4"/>
+  <div>
+
+
+
 ##  Features
 
 - **Automated Video Analysis**: Extracts frames and transcribes audio (using Groq Whisper) to understand the context.
