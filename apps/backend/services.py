@@ -115,22 +115,43 @@ def process_video_and_extract_frames(video_bytes: bytes, fps_interval: int = 2):
 
 def analyze_frames_with_gemini(payload_for_gemini: list, frames_base64: dict, transcript: str = ""):
     if not gemini_client:
-        raise ValueError("GEMINI_API_KEY is not configured.")
+        raise ValueError("GEMINI_API_KEY is not configured in environment variables.")
 
     transcript_context = f"\nAUDIO TRANSCRIPT OF THE SPEAKER:\n\"{transcript}\"\n" if transcript else "\nNO AUDIO DETECTED.\n"
     full_request = [GUIDE_GENERATION_PROMPT + transcript_context] + payload_for_gemini
 
+    fallback_models = [
+        "gemini-3.6-flash",
+        "gemini-2.0-flash",
+        "gemini-1.5-flash",
+        "gemini-1.5-pro"
+    ]
+
+    response = None
+    last_exception = None
     start_time = time.time()
-    
-    response = gemini_client.models.generate_content(
-        model="gemini-3.6-flash",
-        contents=full_request,
-        config=types.GenerateContentConfig(
-            response_mime_type="application/json"
-        )
-    )
-    
+
+    # Послідовна перевірка моделей
+    for model_name in fallback_models:
+        try:
+            response = gemini_client.models.generate_content(
+                model=model_name,
+                contents=full_request,
+                config=types.GenerateContentConfig(
+                    response_mime_type="application/json"
+                )
+            )
+            if response and response.text:
+                print(f"Successfully generated using model: {model_name}")
+                break
+        except Exception as e:
+            last_exception = e
+            print(f"Model {model_name} failed with error: {e}. Trying fallback...")
+
     execution_time = time.time() - start_time
+
+    if not response or not response.text:
+        raise ValueError(f"AI service is temporarily unavailable or overloaded. Details: {last_exception}")
 
     try:
         result_data = json.loads(response.text)
