@@ -1,6 +1,11 @@
+# 
 from fastapi import APIRouter, UploadFile, File, HTTPException, status
 from schemas import GuideResponse
-from services import process_video_and_extract_frames, analyze_frames_with_gemini
+from services import (
+    process_video_and_extract_frames,
+    analyze_frames_with_gemini,
+    extract_audio_and_transcribe
+)
 
 router = APIRouter(
     prefix="/api",
@@ -18,11 +23,11 @@ async def generate_guide(video_file: UploadFile = File(...)):
     try:
         video_bytes = await video_file.read()
 
-        # 2. Обробка кадрів у RAM
+        transcript = extract_audio_and_transcribe(video_bytes)
+
         payload, frames_b64 = process_video_and_extract_frames(video_bytes, fps_interval=2)
 
-        # 3. Аналіз через Gemini API
-        ai_result, metrics = analyze_frames_with_gemini(payload, frames_b64)
+        ai_result, metrics = analyze_frames_with_gemini(payload, frames_b64, transcript)
 
         return GuideResponse(
             status="success",

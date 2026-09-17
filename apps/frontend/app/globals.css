@@ -1,6 +1,5 @@
-@import "tailwindcss";
 
-@custom-variant dark (&:where(.dark, .dark *));
+ @import "tailwindcss";
 
 @theme {
   --color-background: var(--bg-color);
@@ -14,28 +13,16 @@
 @layer base {
   :root {
     --bg-color: #050505;
-    --surface-color: #f0f0f0;
+    --surface-color: #121212;
     --text-primary: #f0f0f0;
-    --text-secondary: #4b5563;
-    --accent-color: #B71C1C;
-    --border-color: #e5e7eb;
-  }
-
-  .dark {
-    --bg-color: #0a0a0a;
-    --surface-color: #1c1c1e;
-    --text-primary: #f8fafc;
-    --text-secondary: #a1a1aa;
-    --accent-color: #facc15;
+    --text-secondary: #9ca3af;
+    --accent-color: #E2023a;
     --border-color: #27272a;
   }
 
   body {
     background-color: var(--bg-color);
     color: var(--text-primary);
-    transition:
-      background-color 0.3s ease,
-      color 0.3s ease;
   }
 
   .custom-scrollbar::-webkit-scrollbar {
@@ -48,91 +35,32 @@
   }
 
   .custom-scrollbar::-webkit-scrollbar-thumb {
-    background-color:#bbb9b9;
+    background-color: #3f3f46;
     border-radius: 20px;
     border: 1px solid transparent;
   }
+}
 
-  @layer components {
-    
-    .btn-gradient {
-      background: linear-gradient(to bottom, #E2023a, #B71C1C);
-      color: #ffffff;
-      transition: all 0.2s ease;
-    }
+@layer components {
+  .btn-gradient {
+    background: linear-gradient(to bottom, #E2023a, #B71C1C);
+    color: #ffffff;
+    transition: all 0.2s ease;
+  }
 
-    .btn-gradient:hover {
-      background: linear-gradient(to top,  #ef4d4a, #B71C1C);
-    }
+  .btn-gradient:hover {
+    background: linear-gradient(to top, #ef4d4a, #B71C1C);
+    box-shadow: 0 4px 15px rgba(226, 2, 58, 0.3);
+  }
 
-    .text-gradient {
-      background: linear-gradient(to right, #E2023a, #B71C1C);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
+  .text-gradient {
+    background: linear-gradient(to right, #E2023a, #B71C1C);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
 
-    .text-gradient {
-      background: linear-gradient(to right, #E2023a, #B71C1C);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .loader {
-      width: 30px;
-      aspect-ratio: 1;
-      display: grid;
-      transform: translateY(100%);
-    }
-
-    .loader::before,
-    .loader::after {
-      content: "";
-      grid-area: 1/1;
-      border-radius: 50%;
-      transform-origin: bottom;
-      position: relative;
-    }
-
-    .loader::before {
-      background: radial-gradient(at 30% 30%, #35ff9e, #065f46);
-      transform: scaleY(0.65);
-      top: 0;
-      animation:
-        l11-1 2s cubic-bezier(0, 400, 1, 400) infinite,
-        l11-2 2s ease infinite;
-    }
-
-    .loader::after {
-      background: rgba(163, 36, 36, 0.15);
-      filter: blur(8px);
-      transform: scaleY(0.3) translate(0px, 0px);
-      left: 0;
-      animation: l11-3 2s cubic-bezier(0, 400, 1, 400) infinite;
-    }
-
-     .loader::after {
-     background: rgba(255, 67, 53, 0.587); 
-     filter: blur(8px);
-    box-shadow: 0 0 15px 2px rgba(255, 77, 53, 0.514);
-    }
-
-    @keyframes l11-1 {
-      100% {
-        top: -0.2px;
-      }
-    }
-    @keyframes l11-2 {
-      4%,
-      96% {
-        transform: scaleY(1);
-      }
-    }
-    @keyframes l11-3 {
-      100% {
-        transform: scaleY(0.3) translate(0.1px, -0.1px);
-      }
-    }
+  .text-accent {
+    color: #E2023a;
   }
 }

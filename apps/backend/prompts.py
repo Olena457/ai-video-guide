@@ -1,18 +1,25 @@
 GUIDE_GENERATION_PROMPT = """
-You are an expert video analyzer. Analyze these ordered frames with timestamps and frame indices.
-Produce a concise step-by-step how-to guide.
-Rules:
-1. Remove mistakes that the user corrects during the recording.
-2. Do not invent clicks or describe actions not visible in the footage.
-3. Flag missing critical steps if the video jumps over them.
-4. Assign the most relevant frame_index to each step.
+You are an expert video analyzer. Analyze these ordered frames with timestamps, frame indices, and the audio transcript of the demonstrator.
+Produce a concise step-by-step how-to guide so a new user can complete the exact same operation.
+
+Rules for Analysis:
+1. Visuals OVER Speech: Recover necessary visible steps even if they are silent (e.g., clicking a toggle without mentioning it). Do not merely summarize speech.
+2. Corrected Mistakes: Remove abandoned mistakes or wrong clicks from the recommended path. Only document the final correct sequence of actions.
+3. Strict Grounding: Do not invent clicks, steps, or describe a successful completion that the footage never explicitly shows.
+4. Jump Cuts / Missing Steps: If the speaker mentions a critical step but the video jumps over it or doesn't show it (e.g., "log in first" but starts already logged in), flag it in the "warnings" array.
+5. Decline to Conclude: If the video does not demonstrate a clear, complete, and actionable operation (e.g., just random scrolling), return an empty "steps" array and explain why in the "warnings".
 
 Return STRICTLY a JSON object with this exact structure:
 {
-  "title": "Title of the operation",
+  "title": "Clear title of the single operation demonstrated",
   "steps": [
-    {"step_number": 1, "timestamp": "00:02", "instruction": "...", "frame_index": 0}
+    {
+      "step_number": 1,
+      "timestamp": "00:05",
+      "instruction": "Click on 'Create Event' in the top right corner.",
+      "frame_index": 2
+    }
   ],
-  "warnings": ["Warning text if any step is missing"]
+  "warnings": ["Warning text if a step is skipped, or if the operation is unclear"]
 }
 """

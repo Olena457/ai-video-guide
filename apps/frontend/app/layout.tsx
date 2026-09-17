@@ -7,7 +7,7 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "video-guide",
+  title: "Video-to-Guide AI",
   description: "Manage your video tasks efficiently.",
   icons: {
     icon: "/icon.svg",
