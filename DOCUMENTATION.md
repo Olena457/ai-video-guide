@@ -1,8 +1,48 @@
+                                                       
 # AI Video Guide — System Documentation
 
-The AI Video Guide is an automated documentation system that transforms short screen recordings (up to two minutes) into structured, step-by-step visual user manuals with inline screenshots and exact timestamps.
+The AI Video Guide is an automated documentation system that transforms short screen recordings  into structured, step-by-step visual user manuals with inline screenshots and exact timestamps.
 
 ---
+
+###  Frontend Technologies
+
+| Category | Technology / Library | Purpose |
+| :--- | :--- | :--- |
+| **Framework** | Next.js 16 | Core React framework for building the application interface |
+| **Language** | TypeScript 5 | Statically typed JavaScript for enhanced code reliability |
+| **Styling** | Tailwind CSS v4 |responsive design |
+| **UI & Icons** | Lucide React| Modern iconography and toast notifications |
+| **Utilities** | Generative Loaders | Animated loading  |
+| **Deployment**| Vercel | cloud hosting for the frontend |
+
+
+
+###  Backend Technologies
+
+| Category | Technology / Library | Purpose |
+| :--- | :--- | :--- |
+| **Core Framework**| FastAPI | High-performance, asynchronous Python web framework for the API |
+| **Server** | Uvicorn | Lightning-fast ASGI web server implementation |
+| **AI Integration**| Google GenAI, OpenAI, Groq | Official SDKs for communicating with Large Language Models |
+| **Media Processing**| OpenCV (Headless), Pillow | Video frame extraction and image processing libraries |
+| **Data Handling** | Pydantic, Python-Multipart | Data validation, settings management, and file upload handling |
+| **Deployment** | Render | cloud platform for backend hosting |
+
+
+
+###  Supported Formats & AI Models
+
+| Category | Details |
+| :--- | :--- |
+| **Supported Video Formats** | `.mp4`, `.mov`, `.webm` |
+| **Primary AI Models** | Gemini 3.6, 3.7 Flash (Fallback/Speed), Gemini-3.5-flash-lite |
+| **Additional AI Support** | OpenAI(pixtral-12b) & Groq models- (whisper-large-v3-turbo)  |
+
+
+---
+
+
 
 ## 1. Application Overview
 
@@ -16,39 +56,6 @@ The application automates the generation of Standard Operating Procedures (SOPs)
 
 ---
 
-## 2. AI & Data Processing Pipeline
-
-The backend processes incoming media through a multi-stage pipeline:
-MP4 Upload ──┬──> Audio Extraction (FFmpeg) ──> Groq Whisper ──> Transcript Text
-              │                                                         │
-              └──> Frame Sampling (OpenCV) ───> Base64 Encoding ────────┤
-                                                                        ▼
-                                                         Multimodal AI Processing
-                                                         (Gemini / OpenRouter)
-                                                                        │
-                                                                        ▼
-                                                         [Structured JSON Guide]
-
-                                                         Ось готовий блок документації у форматі Markdown (`.md`). Ви можете скопіювати його в один клік, натиснувши кнопку в правому верхньому куті кодового блоку.
-
-```markdown
-# AI Video Guide — System Documentation
-
-The AI Video Guide is an automated documentation system that transforms short screen recordings (up to two minutes) into structured, step-by-step visual user manuals with inline screenshots and exact timestamps.
-
----
-
-## 1. Application Overview
-
-The application automates the generation of Standard Operating Procedures (SOPs) and feature walkthroughs from MP4 screen captures. By combining visual frame analysis with speech transcription, the system identifies the demonstrator's intent, cleans up human error during the recording, and outputs a validated JSON timeline rendered in a modern Web interface.
-
-### Key Capabilities
-* **Single-Operation Documentation**: Converts single-task browser recordings into sequential action guides.
-* **Automatic Screenshot & Timestamp Mapping**: Pairs every logical step with an isolated, Base64-encoded frame and exact video timestamp (`MM:SS`).
-* **Operational Telemetry**: Displays execution metrics per request, including total processing time, prompt/completion token usage, and calculated USD costs.
-* **Resilient Infrastructure**: Offers model fallback mechanisms and automated JSON sanitization.
-
----
 
 ## 2. AI & Data Processing Pipeline
 
@@ -56,6 +63,8 @@ The backend processes incoming media through a multi-stage pipeline:
 
 ---
 
+
+```
 
 [MP4 Upload] ──┬──> Audio Extraction (FFmpeg) ──> Groq Whisper ──> Transcript Text
 │                                                         │
@@ -66,6 +75,10 @@ Multimodal AI Processing
 │
 ▼
 [Structured JSON Guide]
+
+
+```
+
 
 ---
 
@@ -82,9 +95,10 @@ Multimodal AI Processing
 3. Converts RGB frames to JPEG buffer streams and encodes them into Base64 Data URLs.
 4. Maps frame indices to calculated timestamps (`MM:SS`).
 
+
 ### Stage 3: Multimodal Synthesis (`ai_service.py`)
 1. Combines the text transcript, system prompt (`GUIDE_GENERATION_PROMPT`), and ordered base64 visual frames into a unified multimodal payload.
-2. Submits the payload to Google Gemini (`gemini-2.5-flash` or `gemini-2.0-flash-lite`).
+2. Submits the payload to Google Gemini (`gemini-3.6-flash` or `gemini-3.7-flash`).
 3. Formats the response into a structured JSON payload containing step titles, explicit instructions, referenced frame indices, and screenshot URLs.
 
 ---
