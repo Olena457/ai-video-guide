@@ -13,8 +13,8 @@ AI Video Guide is an intelligent web application designed to automatically gener
   <img src="./apps/frontend/public/photo-4.jpg" style="width: 30%; height: 150px; object-fit: cover;" alt="photo 4"/>
   <img src="./apps/frontend/public/photo-5.jpg" style="width: 30%; height: 150px; object-fit: cover;" alt="photo 3"/>
   <img src="./apps/frontend/public/photo-1.jpg" style="width: 30%; height: 150px; object-fit: cover;" alt="photo 5"/>
-  <div>
   <img src="./apps/frontend/public/photo-6.jpg" style="width: 30%; height: 150px; object-fit: cover;" alt="photo 6"/>
+  
   <div>
 
 
