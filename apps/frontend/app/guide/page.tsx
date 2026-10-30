@@ -17,9 +17,8 @@ export default function GuideGeneratorPage() {
   return (
     <div className="min-h-screen bg-[var(--bg-color)] text-[var(--text-primary)] p-6">
       <div className="max-w-6xl mx-auto">
-        {/* Header */}
-        <header className="mb-8 pb-6 border-b border-[var(--border-color)]">
-          <h1 className="text-2xl sm:text-3xl font-bold flex items-center gap-2 sm:gap-3">
+        <header className="mb-8 pb-6 border-b border-[var(--accent-color)] pr-14">
+          <h1 className="text-xl sm:text-2xl md:text-3xl font-bold flex items-center gap-2 sm:gap-3">
             <FileVideo className="text-accent w-6 h-6 sm:w-8 sm:h-8 shrink-0" />
             <Link
               href="/"
@@ -28,7 +27,7 @@ export default function GuideGeneratorPage() {
               Video-to-Guide AI
             </Link>
           </h1>
-          <p className="text-[var(--text-secondary)] mt-2">
+          <p className="text-xs sm:text-sm text-[var(--text-secondary)] mt-2">
             Upload a screen recording to automatically generate a step-by-step
             guide.
           </p>
@@ -85,7 +84,7 @@ export default function GuideGeneratorPage() {
                   <LoadingProcess />
                 </div>
                 <p className="text-[var(--text-secondary)] mt-4 text-sm">
-                  This might take 30–50 seconds. Please do not close this page.
+                  This might take 30-50 seconds. Please do not close this page.
                 </p>
               </div>
             )}

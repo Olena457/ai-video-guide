@@ -1,5 +1,6 @@
-
-from fastapi import APIRouter, UploadFile, File, HTTPException, status
+import os
+from dotenv import load_dotenv
+from fastapi import APIRouter, UploadFile, File, HTTPException, status, Header, Depends
 from google.genai.errors import APIError
 
 from schemas import GuideResponse
@@ -9,6 +10,17 @@ from services import (
     extract_audio_and_transcribe
 )
 
+load_dotenv()
+
+ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD", "default_password")
+
+def verify_admin_password(x_admin_password: str = Header(None)):
+    if x_admin_password != ADMIN_PASSWORD:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid or missing administrator password"
+        )
+
 router = APIRouter(
     prefix="/api",
     tags=["Guide Generation"]
@@ -16,7 +28,10 @@ router = APIRouter(
 
 
 @router.post("/generate-guide", response_model=GuideResponse)
-async def generate_guide(video_file: UploadFile = File(...)):
+async def generate_guide(
+    video_file: UploadFile = File(...),
+    _password: str = Depends(verify_admin_password) 
+):
     if not video_file.filename.lower().endswith(('.mp4', '.mov', '.webm')):
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
