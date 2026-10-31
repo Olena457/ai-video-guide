@@ -21,7 +21,7 @@ def _analyze_with_openrouter_fallback(frames_base64: dict, transcript: str = "")
         })
 
     response = openrouter_client.chat.completions.create(
-        model="mistralai/pixtral-12b:free",
+        model="openrouter/free",
         messages=[{"role": "user", "content": content}],
         response_format={"type": "json_object"}
     )
@@ -42,7 +42,6 @@ def analyze_frames_with_gemini(payload_for_gemini: list, frames_base64: dict, tr
     full_request = [GUIDE_GENERATION_PROMPT + transcript_context] + payload_for_gemini
 
     fallback_models = [
-
         "gemini-3.6-flash",
         "gemini-3.7-flash",
         "gemini-3.5-flash-lite",
@@ -78,10 +77,10 @@ def analyze_frames_with_gemini(payload_for_gemini: list, frames_base64: dict, tr
                 print(f"Gemini model {model_name} failed ({e}). Trying next fallback...")
 
     if not response_text:
-        print("All Gemini models failed. Switching to OpenRouter Pixtral 12B fallback...")
+        print("All Gemini models failed. Switching to OpenRouter Free fallback...")
         try:
             response_text, token_metrics = _analyze_with_openrouter_fallback(frames_base64, transcript)
-            print("Successfully generated using OpenRouter Pixtral 12B!")
+            print("Successfully generated using OpenRouter Free!")
         except Exception as e:
             last_exception = e
             print(f"OpenRouter fallback failed: {e}")
